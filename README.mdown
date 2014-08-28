@@ -1,0 +1,28 @@
+# Kagu
+
+Ruby API to manage iTunes tracks and playlists.
+
+## Installation
+
+Just add this into your `Gemfile`:
+
+    gem 'kagu'
+
+Then, just run `bundle install`.
+
+## Example
+
+    library = Kagu::Library.new
+
+    library.tracks.each do |track|
+      puts track.artist
+    end
+
+    library.playlists.each do |playlist|
+      puts "#{playlist.name}: #{playlist.tracks.count}"
+    end
+
+## Executing test suite
+
+This project is fully tested with [Rspec 3](http://github.com/rspec/rspec).
+Just run `bundle exec rake` (after a `bundle install`).
