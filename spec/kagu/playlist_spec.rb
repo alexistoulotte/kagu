@@ -42,7 +42,7 @@ describe Kagu::Playlist do
     it 'is mandatory' do
       expect {
         Kagu::Playlist.new(name: ' ')
-      }.to raise_error('Kagu::Playlist#name is mandatory')
+      }.to raise_error(Kagu::Error, 'Kagu::Playlist#name is mandatory')
     end
 
   end

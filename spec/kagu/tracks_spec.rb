@@ -48,7 +48,7 @@ describe Kagu::Tracks do
     it 'raise an error if library is nil' do
       expect {
         Kagu::Tracks.new(nil)
-      }.to raise_error('Kagu::Tracks#library must be a library, nil given')
+      }.to raise_error(ArgumentError, 'Kagu::Tracks#library must be a library, nil given')
     end
 
   end

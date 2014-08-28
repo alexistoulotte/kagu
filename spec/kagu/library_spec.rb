@@ -13,13 +13,13 @@ describe Kagu::Library do
     it 'raise an error if directory' do
       expect {
         Kagu::Library.new('/tmp')
-      }.to raise_error(IOError, 'No such file: "/tmp"')
+      }.to raise_error(Kagu::Error, 'No such file: "/tmp"')
     end
 
     it "raise an error if file can't be found" do
       expect {
         Kagu::Library.new('/tmp/bar.foo.baz')
-      }.to raise_error(IOError, 'No such file: "/tmp/bar.foo.baz"')
+      }.to raise_error(Kagu::Error, 'No such file: "/tmp/bar.foo.baz"')
     end
 
   end

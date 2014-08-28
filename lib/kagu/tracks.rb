@@ -7,7 +7,8 @@ module Kagu
     attr_reader :library
 
     def initialize(library)
-      @library = library.is_a?(Library) ? library : raise("#{self.class}#library must be a library, #{library.inspect} given")
+      raise ArgumentError.new("#{self.class}#library must be a library, #{library.inspect} given") unless library.is_a?(Library)
+      @library = library
     end
 
     def each(&block)

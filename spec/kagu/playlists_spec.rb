@@ -39,7 +39,7 @@ describe Kagu::Playlists do
     it 'raise an error if library is nil' do
       expect {
         Kagu::Playlists.new(nil)
-      }.to raise_error('Kagu::Playlists#library must be a library, nil given')
+      }.to raise_error(ArgumentError, 'Kagu::Playlists#library must be a library, nil given')
     end
 
   end

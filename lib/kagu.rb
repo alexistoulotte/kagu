@@ -5,6 +5,7 @@ require 'htmlentities'
 lib_path = "#{__dir__}/kagu"
 
 require "#{lib_path}/attributes_initializer"
+require "#{lib_path}/error"
 require "#{lib_path}/library"
 require "#{lib_path}/playlist"
 require "#{lib_path}/playlists"

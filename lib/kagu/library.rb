@@ -21,7 +21,7 @@ module Kagu
     private
 
     def path=(path)
-      raise IOError.new("No such file: #{path.inspect}") unless File.file?(path)
+      raise Error.new("No such file: #{path.inspect}") unless File.file?(path)
       @path = path
     end
 

@@ -85,7 +85,7 @@ describe Kagu::Track do
     it 'raise an error if not specified' do
       expect {
         Kagu::Track.new(attributes.except(:added_at))
-      }.to raise_error('Kagu::Track#added_at is mandatory')
+      }.to raise_error(Kagu::Error, 'Kagu::Track#added_at is mandatory')
     end
 
   end
@@ -142,7 +142,7 @@ describe Kagu::Track do
     it 'raise an error if not specified' do
       expect {
         Kagu::Track.new(attributes.except(:id))
-      }.to raise_error('Kagu::Track#id is mandatory')
+      }.to raise_error(Kagu::Error, 'Kagu::Track#id is mandatory')
     end
 
   end
@@ -167,7 +167,7 @@ describe Kagu::Track do
     it 'raise an error if not specified' do
       expect {
         Kagu::Track.new(attributes.except(:length))
-      }.to raise_error('Kagu::Track#length is mandatory')
+      }.to raise_error(Kagu::Error, 'Kagu::Track#length is mandatory')
     end
 
   end
@@ -182,19 +182,19 @@ describe Kagu::Track do
     it 'raise an error if not specified' do
       expect {
         Kagu::Track.new(attributes.except(:path))
-      }.to raise_error('Kagu::Track#path is mandatory')
+      }.to raise_error(Kagu::Error, 'Kagu::Track#path is mandatory')
     end
 
     it 'raise an error if not found' do
       expect {
         Kagu::Track.new(attributes.merge(path: '/tmp/bar.mp3'))
-      }.to raise_error('No such file: "/tmp/bar.mp3"')
+      }.to raise_error(Kagu::Error, 'No such file: "/tmp/bar.mp3"')
     end
 
     it 'raise an error if not a file' do
       expect {
         Kagu::Track.new(attributes.merge(path: '/tmp'))
-      }.to raise_error('No such file: "/tmp"')
+      }.to raise_error(Kagu::Error, 'No such file: "/tmp"')
     end
 
   end

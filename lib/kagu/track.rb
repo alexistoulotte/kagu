@@ -11,7 +11,7 @@ module Kagu
 
     def initialize(attributes = {})
       super
-      raise("No such file: #{path.inspect}") unless File.file?(path)
+      raise Error.new("No such file: #{path.inspect}") unless File.file?(path)
     end
 
     def <=>(other)
