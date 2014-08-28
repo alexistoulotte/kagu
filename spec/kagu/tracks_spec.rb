@@ -39,7 +39,11 @@ describe Kagu::Tracks do
 
   end
 
-  describe '#initialize' do
+  describe '#library' do
+
+    it 'is library given at initialization' do
+      expect(tracks.library).to be(library)
+    end
 
     it 'raise an error if library is nil' do
       expect {

@@ -30,7 +30,11 @@ describe Kagu::Playlists do
 
   end
 
-  describe '#initialize' do
+  describe '#library' do
+
+    it 'is library given at initialization' do
+      expect(playlists.library).to be(library)
+    end
 
     it 'raise an error if library is nil' do
       expect {

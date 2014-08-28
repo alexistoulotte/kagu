@@ -1,6 +1,5 @@
 require 'active_support/core_ext'
 require 'byebug' if ENV['DEBUGGER']
-require 'fileutils'
 require 'htmlentities'
 
 lib_path = "#{__dir__}/kagu"

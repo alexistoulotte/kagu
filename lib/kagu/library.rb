@@ -2,7 +2,7 @@ module Kagu
 
   class Library
 
-    PATH = "#{ENV['HOME']}/Music/iTunes/iTunes Music Library.xml"
+    PATH = File.expand_path("#{ENV['HOME']}/Music/iTunes/iTunes Music Library.xml")
 
     attr_reader :path
 
