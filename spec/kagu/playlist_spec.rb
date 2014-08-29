@@ -57,6 +57,10 @@ describe Kagu::Playlist do
 
   describe '#tracks' do
 
+    it 'is an empty array by default' do
+      expect(Kagu::Playlist.new(name: 'Test').tracks).to eq([])
+    end
+
     it 'is tracks given at initialization' do
       expect(Kagu::Playlist.new(name: 'Test', tracks: tracks).tracks).to eq(tracks)
     end

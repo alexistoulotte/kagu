@@ -21,6 +21,10 @@ module Kagu
       name
     end
 
+    def tracks
+      @tracks ||= []
+    end
+
     private
 
     def add_tracks
