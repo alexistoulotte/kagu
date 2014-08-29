@@ -34,7 +34,7 @@ module Kagu
           end repeat
         end tell
       })
-      nil
+      true
     rescue => e
       raise Error.new(e)
     end
@@ -45,7 +45,7 @@ module Kagu
           delete tracks of playlist #{name.inspect}
         end tell
       })
-      nil
+      true
     rescue => e
       raise Error.new(e)
     end
@@ -58,7 +58,7 @@ module Kagu
           end if
         end tell
       })
-      nil
+      true
     rescue => e
       raise Error.new(e)
     end

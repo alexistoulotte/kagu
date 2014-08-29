@@ -11,8 +11,12 @@ module Kagu
       @library = library
     end
 
+    def build(attributes = {})
+      Playlist.new(attributes)
+    end
+
     def create(attributes = {})
-      Playlist.new(attributes).save
+      build(attributes).tap(&:save)
     end
 
     def each(&block)
