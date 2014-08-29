@@ -10,7 +10,9 @@ Just add this into your `Gemfile`:
 
 Then, just run `bundle install`.
 
-## Example
+## Examples
+
+### Displaying all tracks artist
 
     library = Kagu::Library.new
 
@@ -18,9 +20,20 @@ Then, just run `bundle install`.
       puts track.artist
     end
 
+### Displaying all playlists and its tracks count
+
+    library = Kagu::Library.new
+
     library.playlists.each do |playlist|
       puts "#{playlist.name}: #{playlist.tracks.count}"
     end
+
+### Creating a playlist
+
+    library = Kagu::Library.new
+
+    tracks = library.tracks.select { |track| track.genre == 'Drum & Bass' && track.added_at > 1.week.ago }
+    library.playlists.create(name: 'Recent - D&B', tracks: tracks)
 
 ## Executing test suite
 

@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_dependency 'activesupport', '>= 4.1.0', '< 4.2.0'
+  s.add_dependency 'applescript', '>= 1.0', '< 2.0'
   s.add_dependency 'htmlentities', '>= 4.3.0', '< 4.4.0'
 
   s.add_development_dependency 'byebug', '>= 3.2.0', '< 3.3.0'

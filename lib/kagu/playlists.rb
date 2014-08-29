@@ -11,6 +11,10 @@ module Kagu
       @library = library
     end
 
+    def create(attributes = {})
+      Playlist.new(attributes).save
+    end
+
     def each(&block)
       return unless block_given?
       tracks = {}.tap do |tracks|

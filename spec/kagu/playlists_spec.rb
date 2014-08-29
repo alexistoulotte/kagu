@@ -25,7 +25,7 @@ describe Kagu::Playlists do
     end
 
     it 'returns nil' do
-      expect(playlists.each { break }).to be_nil
+      expect(playlists.each {}).to be_nil
     end
 
   end
