@@ -11,11 +11,11 @@ module Kagu
     end
 
     def playlists
-      Playlists.new(self)
+      @playlists ||= Playlists.new(self)
     end
 
     def tracks
-      Tracks.new(self)
+      @tracks ||= Tracks.new(self)
     end
 
     private
