@@ -19,6 +19,7 @@ module Kagu
           attributes = {}
           begin
             match = line.match(/<key>(.+)<\/key><(\w+)>(.*)<\/\2>/)
+            next unless match
             name = "itunes_#{match[1].downcase.gsub(' ', '_')}"
             value = match[3]
             attributes[name] = value
