@@ -31,10 +31,6 @@ describe Kagu::Library do
       expect(library.playlists.library).to be(library)
     end
 
-    it 'always return same object' do
-      expect(library.playlists.object_id).to be(library.playlists.object_id)
-    end
-
   end
 
   describe '#tracks' do
@@ -42,10 +38,6 @@ describe Kagu::Library do
     it 'returns a Tracks object' do
       expect(library.tracks).to be_a(Kagu::Tracks)
       expect(library.tracks.library).to be(library)
-    end
-
-    it 'always return same object' do
-      expect(library.tracks.object_id).to be(library.tracks.object_id)
     end
 
   end
