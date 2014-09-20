@@ -24,6 +24,8 @@ describe Kagu::Tracks do
         expect(track.path).to include('Music')
         expect(track.title).to be_a(String)
         expect(track.title).to be_present
+        expect(track.year).to be_an(Integer)
+        expect(track.year.to_s).to match(/\A\d{4}\z/)
       end
     end
 

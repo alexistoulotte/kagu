@@ -228,4 +228,41 @@ describe Kagu::Track do
 
   end
 
+  describe '#year' do
+
+    it 'is an integer' do
+      expect(track.year).to be_an(Integer)
+    end
+
+    it 'is correct' do
+      expect(track.year.to_s).to match(/\A\d{4}\z/)
+    end
+
+    it 'is nil if negative' do
+      track.send(:year=, -1)
+      expect(track.year).to be_nil
+    end
+
+    it 'is nil if invalid' do
+      track.send(:year=, 20434)
+      expect(track.year).to be_nil
+    end
+
+    it 'can be < 1000' do
+      track.send(:year=, 942)
+      expect(track.year).to be(942)
+    end
+
+    it 'can be set as string' do
+      track.send(:year=, '1984')
+      expect(track.year).to be(1984)
+    end
+
+    it 'is nil if string is invalid' do
+      track.send(:year=, '1984 ')
+      expect(track.year).to be_nil
+    end
+
+  end
+
 end
