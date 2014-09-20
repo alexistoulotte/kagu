@@ -37,6 +37,13 @@ describe Kagu::Tracks do
       expect(tracks.each {}).to be_nil
     end
 
+    it 'all tracks must exists and path should not include UTF-8-MAC charset' do
+      library.tracks.each do |track|
+        expect(track.path).not_to include("\u{65}\u{301}")
+        expect(File.file?(track.path)).to be(true)
+      end
+    end
+
   end
 
   describe '#library' do
