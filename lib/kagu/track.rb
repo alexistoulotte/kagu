@@ -80,7 +80,7 @@ module Kagu
     end
 
     def itunes_location=(value)
-      self.path = CGI.unescape(html_entities_decode(value).gsub('+', '%2B')).gsub(/\Afile:\/\/localhost/, '')
+      self.path = CGI.unescape(html_entities_decode(value).gsub('+', '%2B')).gsub(/\Afile:\/\/(localhost)?/, '')
       self.path = path.encode('UTF-8', 'UTF-8-MAC') if IS_MAC_OS
     end
 

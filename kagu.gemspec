@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'applescript', '>= 1.0', '< 2.0'
   s.add_dependency 'htmlentities', '>= 4.3.0', '< 4.4.0'
 
-  s.add_development_dependency 'byebug', '>= 3.2.0', '< 3.5.0'
+  s.add_development_dependency 'byebug', '>= 3.2.0', '< 3.6.0'
   s.add_development_dependency 'rake', '>= 10.3.0', '< 10.4.0'
   s.add_development_dependency 'rspec', '>= 3.1.0', '< 3.2.0'
 end
