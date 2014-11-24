@@ -12,7 +12,7 @@ module Kagu
 
     def initialize(attributes = {})
       super
-      raise Error.new("No such file: #{path.inspect}") unless File.file?(path)
+      raise Error.new("No such file: #{path.inspect}") if File.exists?(path) && !exists?
     end
 
     def <=>(other)
@@ -26,6 +26,10 @@ module Kagu
 
     def eql?(other)
       super || self == other
+    end
+
+    def exists?
+      File.file?(path)
     end
 
     def relative_path(directory)

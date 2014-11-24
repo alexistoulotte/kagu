@@ -16,6 +16,7 @@ describe Kagu::Tracks do
         expect(track.album).to be_present
         expect(track.artist).to be_a(String)
         expect(track.artist).to be_present
+        expect(track.exists?).to be(true)
         expect(track.genre).to be_a(String)
         expect(track.genre).to be_present
         expect(track.id).to be_an(Integer)
@@ -42,7 +43,7 @@ describe Kagu::Tracks do
     it 'all tracks must exists and path should not include UTF-8-MAC charset' do
       library.tracks.each do |track|
         expect(track.path).not_to include("\u{65}\u{301}")
-        expect(File.file?(track.path)).to be(true)
+        expect(track.exists?).to be(true)
       end
     end
 

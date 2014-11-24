@@ -123,6 +123,22 @@ describe Kagu::Track do
 
   end
 
+  describe '#exists?' do
+
+    it 'is true if path is a file' do
+      expect {
+        allow(track).to receive(:path).and_return('/tmp/foo.mp3')
+      }.to change { track.exists? }.from(true).to(false)
+    end
+
+    it 'is false if path is a directory' do
+      expect {
+        allow(track).to receive(:path).and_return('/tmp')
+      }.to change { track.exists? }.from(true).to(false)
+    end
+
+  end
+
   describe '#genre' do
 
     it 'is correct' do
@@ -185,10 +201,10 @@ describe Kagu::Track do
       }.to raise_error(Kagu::Error, 'Kagu::Track#path is mandatory')
     end
 
-    it 'raise an error if not found' do
+    it 'does not raise an error if not found' do
       expect {
         Kagu::Track.new(attributes.merge(path: '/tmp/bar.mp3'))
-      }.to raise_error(Kagu::Error, 'No such file: "/tmp/bar.mp3"')
+      }.not_to raise_error
     end
 
     it 'raise an error if not a file' do
