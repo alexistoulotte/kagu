@@ -1,3 +1,4 @@
+require 'active_support'
 require 'active_support/core_ext'
 require 'applescript'
 require 'byebug' if ENV['DEBUGGER']
