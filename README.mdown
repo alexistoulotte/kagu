@@ -6,7 +6,9 @@ Ruby API to manage iTunes tracks and playlists.
 
 Just add this into your `Gemfile`:
 
-    gem 'kagu'
+```ruby
+gem 'kagu'
+```
 
 Then, just run `bundle install`.
 
@@ -14,26 +16,32 @@ Then, just run `bundle install`.
 
 ### Displaying all tracks artist
 
-    library = Kagu::Library.new
+```ruby
+library = Kagu::Library.new
 
-    library.tracks.each do |track|
-      puts track.artist
-    end
+library.tracks.each do |track|
+  puts track.artist
+end
+```
 
 ### Displaying all playlists and its tracks count
 
-    library = Kagu::Library.new
+```ruby
+library = Kagu::Library.new
 
-    library.playlists.each do |playlist|
-      puts "#{playlist.name}: #{playlist.tracks.count}"
-    end
+library.playlists.each do |playlist|
+  puts "#{playlist.name}: #{playlist.tracks.count}"
+end
+```
 
 ### Creating a playlist
 
-    library = Kagu::Library.new
+```ruby
+library = Kagu::Library.new
 
-    tracks = library.tracks.select { |track| track.genre == 'Drum & Bass' && track.added_at > 1.week.ago }
-    library.playlists.create(name: 'Recent - D&B', tracks: tracks)
+tracks = library.tracks.select { |track| track.genre == 'Drum & Bass' && track.added_at > 1.week.ago }
+library.playlists.create(name: 'Recent - D&B', tracks: tracks)
+```
 
 ## Executing test suite
 
