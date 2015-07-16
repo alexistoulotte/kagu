@@ -4,6 +4,8 @@ module Kagu
 
     include Enumerable
 
+    EXTENSIONS = %w(.aac .flac .mp3 .wav)
+
     attr_reader :library
 
     def initialize(library)
@@ -24,7 +26,7 @@ module Kagu
             value = match[3]
             attributes[name] = value
           end while (line = file.readline.strip) != '</dict>'
-          yield(Track.new(attributes)) if attributes['itunes_track_type'] == 'File' && attributes['itunes_podcast'].blank?
+          yield(Track.new(attributes)) if attributes['itunes_track_type'] == 'File' && attributes['itunes_podcast'].blank? && EXTENSIONS.include?(File.extname(attributes['itunes_location'].try(:downcase)))
         end
       end
     end

@@ -30,12 +30,15 @@ module Kagu
         end while !line.starts_with?('<key>Playlists</key>')
         playlist_name = nil
         playlist_tracks = []
+        skip_next = false
         while !file.eof? && (line = file.readline.strip)
           if line == '<key>Master</key><true/>'
             playlist_name = nil
+            skip_next = true
             next
-          elsif line == '</array>'
-            yield(Playlist.new(itunes_name: playlist_name, tracks: playlist_tracks)) if playlist_name.present?
+          end
+          if line == '</array>'
+            yield(Playlist.new(itunes_name: playlist_name, tracks: playlist_tracks)) if playlist_name.present? && playlist_tracks.any?
             playlist_name = nil
             playlist_tracks = []
             next
@@ -45,7 +48,11 @@ module Kagu
           name = match[1]
           value = match[3]
           if name == 'Name'
-            playlist_name = value
+            if skip_next
+              skip_next = false
+            else
+              playlist_name = value
+            end
           elsif name == 'Track ID'
             playlist_tracks << tracks[value.to_i]
           end
