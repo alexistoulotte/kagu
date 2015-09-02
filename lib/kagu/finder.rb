@@ -58,6 +58,11 @@ module Kagu
       self
     end
 
+    def reload!(options = {})
+      @tracks = nil
+      reload(options)
+    end
+
     def replacements
       @replacements ||= []
     end
@@ -103,10 +108,14 @@ module Kagu
       end
     end
 
+    def tracks
+      @tracks ||= library.tracks.to_a
+    end
+
     def tracks_digests
       @tracks_digests ||= begin
         [].tap do |tracks_digests|
-          library.tracks.each do |track|
+          tracks.each do |track|
             digests(artist: track.artist, title: track.title).each_with_index do |digest, index|
               next if ignored.include?(digest)
               tracks_digests[index] ||= {}

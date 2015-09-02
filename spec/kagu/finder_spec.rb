@@ -211,6 +211,30 @@ describe Kagu::Finder do
       }.to change { finder.find(artist: 'korn', title: 'adidas').present? }.from(false).to(true)
     end
 
+    it 'returns finder' do
+      expect(finder.reload).to be(finder)
+    end
+
+  end
+
+  describe '#reload!' do
+
+    it 'invokes reload' do
+      expect(finder).to receive(:reload).with('foo' => 'bar')
+      finder.reload!('foo' => 'bar')
+    end
+
+    it 'removes tracks cache' do
+      finder.find(artist: 'korn', title: 'blind')
+      expect {
+        finder.reload!
+      }.to change { finder.instance_variable_get(:@tracks) }.to(nil)
+    end
+
+    it 'returns finder' do
+      expect(finder.reload!).to be(finder)
+    end
+
   end
 
   describe '#replacements' do
