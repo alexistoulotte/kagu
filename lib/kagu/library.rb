@@ -10,6 +10,10 @@ module Kagu
       self.path = path
     end
 
+    def finder(options = {})
+      Finder.new(self, options)
+    end
+
     def playlists
       Playlists.new(self)
     end

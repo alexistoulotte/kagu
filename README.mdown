@@ -43,6 +43,15 @@ tracks = library.tracks.select { |track| track.genre == 'Drum & Bass' && track.a
 library.playlists.create(name: 'Recent - D&B', tracks: tracks)
 ```
 
+### Finding some tracks
+
+```ruby
+library = Kagu::Library.new
+library.finder.find(artist: 'Serial Killaz', title: 'Walk and Skank').each do
+  puts track.id
+end
+```
+
 ## Executing test suite
 
 This project is fully tested with [Rspec 3](http://github.com/rspec/rspec).

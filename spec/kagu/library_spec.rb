@@ -24,6 +24,18 @@ describe Kagu::Library do
 
   end
 
+  describe '#finder' do
+
+    it 'returns a Kagu::Finder instance' do
+      expect(library.finder).to be_a(Kagu::Finder)
+    end
+
+    it 'options can be specified' do
+      expect(library.finder(replacements: { 'foo' => 'bar' }).replacements).to eq([{ 'foo' => 'bar' }])
+    end
+
+  end
+
   describe '#playlists' do
 
     it 'returns a Playlists object' do
