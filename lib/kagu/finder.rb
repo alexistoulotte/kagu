@@ -32,7 +32,7 @@ module Kagu
         tracks_digests.each_with_index do |hash, digests_index|
           digests(attributes).each_with_index do |digest, digest_index|
             tracks = hash[digest].presence || next
-            tracks = tracks.select { |track| !matches.any? { |match| match.include?(track) } }
+            tracks = tracks.select { |track| !matches.any? { |match| match.try(:include?, track) } }
             next if tracks.empty?
             index = [digests_index, digest_index].max
             matches[index] ||= []

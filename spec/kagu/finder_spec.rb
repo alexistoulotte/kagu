@@ -121,6 +121,13 @@ describe Kagu::Finder do
       expect(results.first.first.title).to match(/podcast 002/i)
     end
 
+    it 'does not fails if it does not match last replacements' do
+      finder.reload(replacements: [{ /subsonik (\d+)/ => "subsonik podcast \\1" }, { /\s+/ => '' }])
+      results = finder.find(artist: 'subsonik', title: '002')
+      expect(results.size).to eq(1)
+      expect(results.first.first.title).to match(/podcast 002/i)
+    end
+
   end
 
   describe '#ignored' do
