@@ -114,6 +114,13 @@ describe Kagu::Finder do
       expect(finder.find(artist: 'korn', title: 'ball tongue')).not_to be_empty
     end
 
+    it 'does not include ignored tracks for each digest' do
+      finder.reload(replacements: { 'blind' => 'foo' })
+      expect {
+        finder.reload(ignored: 'korn foo', replacements: { 'blind' => 'foo' })
+      }.to change { finder.find(artist: 'korn', title: 'blind').size }.to(0)
+    end
+
     it 'finds for some tracks with replacements as regexp' do
       finder.reload(replacements: { /subsonik (\d+)/ => "subsonik podcast \\1" })
       results = finder.find(artist: 'subsonik', title: '002')

@@ -116,8 +116,9 @@ module Kagu
       @tracks_digests ||= begin
         [].tap do |tracks_digests|
           tracks.each do |track|
-            digests(artist: track.artist, title: track.title).each_with_index do |digest, index|
-              next if ignored.include?(digest)
+            digests = digests(artist: track.artist, title: track.title)
+            next if digests.any? { |digest| ignored.include?(digest) }
+            digests.each_with_index do |digest, index|
               tracks_digests[index] ||= {}
               tracks_digests[index][digest] ||= []
               tracks_digests[index][digest].push(track)
