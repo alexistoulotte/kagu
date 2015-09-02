@@ -110,6 +110,13 @@ describe Kagu::Finder do
       expect(finder.find(artist: 'korn', title: 'ball tongue')).not_to be_empty
     end
 
+    it 'finds for some tracks with replacements as regexp' do
+      finder.reload(replacements: { /subsonik (\d+)/ => "subsonik podcast \\1" })
+      results = finder.find(artist: 'subsonik', title: '002')
+      expect(results.size).to eq(1)
+      expect(results.first.first.title).to match(/podcast 002/i)
+    end
+
   end
 
   describe '#ignored' do
@@ -210,6 +217,10 @@ describe Kagu::Finder do
 
     it 'can be ommited' do
       expect(finder.reload.replacements).to eq([])
+    end
+
+    it 'can be specified as regexp' do
+      expect(finder.reload(replacements: { /bar/ => 'foo' }).replacements).to eq(/bar/ => 'foo')
     end
 
     it 'can be specified with a string as key' do
