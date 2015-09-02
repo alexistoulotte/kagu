@@ -48,6 +48,10 @@ module Kagu
       @ignored ||= []
     end
 
+    def ignored?(track)
+      track.present? && digests(track).any? { |digest| ignored.include?(digest) }
+    end
+
     def reload(options = {})
       @ignored = nil
       @replacements = nil
@@ -70,6 +74,7 @@ module Kagu
     private
 
     def digests(attributes)
+      attributes = { 'artist' => attributes.artist, 'title' => attributes.title } unless attributes.is_a?(Hash)
       attributes.stringify_keys!
       return [] if attributes['artist'].blank? || attributes['title'].blank?
       digests = [transliterate("#{attributes['artist']} #{attributes['title']}")]
@@ -116,7 +121,7 @@ module Kagu
       @tracks_digests ||= begin
         [].tap do |tracks_digests|
           tracks.each do |track|
-            digests = digests(artist: track.artist, title: track.title)
+            digests = digests(track)
             next if digests.any? { |digest| ignored.include?(digest) }
             digests.each_with_index do |digest, index|
               tracks_digests[index] ||= {}

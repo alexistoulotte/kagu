@@ -183,6 +183,22 @@ describe Kagu::Finder do
 
   end
 
+  describe '#ignored?' do
+
+    it 'is false if nil is given' do
+      expect(finder.ignored?(nil)).to be(false)
+    end
+
+    it 'is true if at least one digest is ignored' do
+      finder.reload(replacements: { 'hello' => 'world' }, ignored: 'korn world')
+      expect(finder.ignored?(double(artist: 'korn', title: 'blind'))).to be(false)
+      expect(finder.ignored?(double(artist: 'korn', title: 'hello'))).to be(true)
+      expect(finder.ignored?(double(artist: 'korn', title: 'world'))).to be(true)
+      expect(finder.ignored?(double(artist: 'korn', title: 'hellow'))).to be(false)
+    end
+
+  end
+
   describe '#library' do
 
     it 'is library given at initialization' do
