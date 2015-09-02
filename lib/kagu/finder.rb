@@ -104,7 +104,7 @@ module Kagu
         raise("Replacements must be an array or a hash, #{value.inspect} given")
       end
       replacements.each do |item|
-        raise('Replacements must contain only hashes') unless item.is_a?(Hash)
+        raise('Replacements must contain only hashes or arrays') unless item.is_a?(Hash) || item.is_a?(Array)
       end
     end
 

@@ -23,6 +23,10 @@ describe Kagu::Finder do
       expect(Kagu::Finder.replace('    ', 'world' => 'John', 'Hello' => 'Bye')).to be_nil
     end
 
+    it 'accepts arrays as replacements' do
+      expect(Kagu::Finder.replace('Hello World!', [['World', 'John'], ['Hello', 'Bye']])).to eq('Bye John!')
+    end
+
   end
 
   describe '.transliterate' do
@@ -244,7 +248,7 @@ describe Kagu::Finder do
     end
 
     it 'can be specified as regexp' do
-      expect(finder.reload(replacements: { /bar/ => 'foo' }).replacements).to eq(/bar/ => 'foo')
+      expect(finder.reload(replacements: { /bar/ => 'foo' }).replacements).to eq([/bar/ => 'foo'])
     end
 
     it 'can be specified with a string as key' do
@@ -259,16 +263,20 @@ describe Kagu::Finder do
       expect(finder.reload(replacements: [{ 'foo' => 'bar' }, { 'titi' => 'toto' }]).replacements).to eq([{ 'foo' => 'bar' }, { 'titi' => 'toto' }])
     end
 
+    it 'can be specified as array of array' do
+      expect(finder.reload(replacements: [['foo', 'bar' ], ['titi' => 'toto']]).replacements).to eq([['foo', 'bar' ], ['titi' => 'toto']])
+    end
+
     it 'raise an error if a string is given' do
       expect {
         finder.reload(replacements: 'foo')
       }.to raise_error('Replacements must be an array or a hash, "foo" given')
     end
 
-    it 'raise an error if it contains something else than an hash' do
+    it 'raise an error if it contains something else than an hash or array' do
       expect {
         finder.reload(replacements: [{ 'foo' => 'bar' }, 'titi'])
-      }.to raise_error('Replacements must contain only hashes')
+      }.to raise_error('Replacements must contain only hashes or arrays')
     end
 
   end
