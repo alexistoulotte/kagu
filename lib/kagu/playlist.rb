@@ -28,16 +28,17 @@ module Kagu
     private
 
     def add_tracks
-      ids = tracks.map(&:id)
-      AppleScript.execute(%Q{
-        tell application "iTunes"
-          set playlistToPush to user playlist #{name.inspect}
-          set idsToAdd to {#{ids.join(',')}}
-          repeat with idToAdd in idsToAdd
-            duplicate (tracks of library playlist 1 whose database ID is idToAdd) to playlistToPush
-          end repeat
-        end tell
-      })
+      tracks.map(&:id).each_slice(500) do |ids|
+        AppleScript.execute(%Q{
+          tell application "iTunes"
+            set playlistToPush to user playlist #{name.inspect}
+            set idsToAdd to {#{ids.join(',')}}
+            repeat with idToAdd in idsToAdd
+              duplicate (tracks of library playlist 1 whose database ID is idToAdd) to playlistToPush
+            end repeat
+          end tell
+        })
+      end
       true
     rescue => e
       raise Error.new(e)
