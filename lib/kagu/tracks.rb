@@ -4,7 +4,7 @@ module Kagu
 
     include Enumerable
 
-    EXTENSIONS = %w(.aac .flac .mp3 .wav)
+    EXTENSIONS = %w(.aac .flac .mp3 .wav).freeze
 
     attr_reader :library
 

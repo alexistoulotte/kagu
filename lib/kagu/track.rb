@@ -12,7 +12,6 @@ module Kagu
 
     def initialize(attributes = {})
       super
-      raise Error.new("No such file: #{path.inspect}") if File.exists?(path) && !exists?
     end
 
     def <=>(other)
@@ -84,8 +83,9 @@ module Kagu
     end
 
     def itunes_location=(value)
-      self.path = CGI.unescape(html_entities_decode(value).gsub('+', '%2B')).gsub(/\Afile:\/\/(localhost)?/, '')
-      self.path = path.encode('UTF-8', 'UTF-8-MAC') if IS_MAC_OS
+      path = CGI.unescape(html_entities_decode(value).gsub('+', '%2B')).gsub(/\Afile:\/\/(localhost)?/, '')
+      path = path.encode('UTF-8', 'UTF-8-MAC') if IS_MAC_OS
+      self.path = path
     end
 
     def itunes_name=(value)
@@ -110,6 +110,8 @@ module Kagu
 
     def path=(value)
       @path = value.to_s.presence
+      raise Error.new("No such file: #{path.inspect}") if File.exists?(path) && !exists?
+      Kagu.logger.warn('Kagu') { "No such iTunes track: #{path.inspect}" } unless exists?
     end
 
     def title=(value)

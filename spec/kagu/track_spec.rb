@@ -207,7 +207,12 @@ describe Kagu::Track do
       }.not_to raise_error
     end
 
-    it 'raise an error if not a file' do
+    it 'logs a warning if not exist' do
+      expect(Kagu.logger).to receive(:warn)
+      Kagu::Track.new(attributes.merge(path: '/tmp/bar.mp3'))
+    end
+
+    it 'raise an error if exists but not a file' do
       expect {
         Kagu::Track.new(attributes.merge(path: '/tmp'))
       }.to raise_error(Kagu::Error, 'No such file: "/tmp"')
