@@ -15,6 +15,7 @@ module Kagu
 
     def each(&block)
       return unless block_given?
+      Kagu.logger.debug('Kagu') { "Loading iTunes library tracks from #{library.path.inspect}" }
       File.open(library.path, 'r') do |file|
         while !file.eof? && (line = file.readline.strip)
           next unless line.starts_with?('<key>Track ID</key>')

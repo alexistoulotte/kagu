@@ -114,7 +114,10 @@ module Kagu
     end
 
     def tracks
-      @tracks ||= library.tracks.to_a
+      return @tracks if @tracks
+      (@tracks = library.tracks.to_a).tap do |tracks|
+        Kagu.logger.debug('Kagu') { "Loaded #{tracks.size} track(s) from iTunes library" }
+      end
     end
 
     def tracks_digests

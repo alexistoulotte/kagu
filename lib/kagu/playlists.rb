@@ -24,6 +24,7 @@ module Kagu
       tracks = {}.tap do |tracks|
         library.tracks.each { |track| tracks[track.id] = track }
       end
+      Kagu.logger.debug('Kagu') { "Reading iTunes library playlists from #{library.path.inspect}" }
       File.open(library.path, 'r') do |file|
         begin
           line = file.readline.strip

@@ -28,6 +28,7 @@ module Kagu
     private
 
     def add_tracks
+      Kagu.logger.info('Kagu') { "Adding #{tracks.size} track(s) to iTunes playlist #{name.inspect}" }
       tracks.map(&:id).each_slice(500) do |ids|
         AppleScript.execute(%Q{
           tell application "iTunes"
@@ -45,6 +46,7 @@ module Kagu
     end
 
     def clear
+      Kagu.logger.info('Kagu') { "Removing all tracks from iTunes playlist #{name.inspect}" }
       AppleScript.execute(%Q{
         tell application "iTunes"
           delete tracks of playlist #{name.inspect}
@@ -56,6 +58,7 @@ module Kagu
     end
 
     def create
+      Kagu.logger.info('Kagu') { "Creating iTunes playlist #{name.inspect}" }
       AppleScript.execute(%Q{
         tell application "iTunes"
           if not (exists user playlist #{name.inspect}) then

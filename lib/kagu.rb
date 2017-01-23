@@ -3,8 +3,16 @@ require 'active_support/core_ext'
 require 'applescript'
 require 'byebug' if ENV['DEBUGGER']
 require 'htmlentities'
+require 'logger'
 
 lib_path = "#{__dir__}/kagu"
+
+module Kagu
+
+  mattr_accessor :logger
+  self.logger = Logger.new(nil)
+
+end
 
 require "#{lib_path}/attributes_initializer"
 require "#{lib_path}/error"

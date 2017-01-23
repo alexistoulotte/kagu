@@ -52,6 +52,15 @@ library.finder.find(artist: 'Serial Killaz', title: 'Walk and Skank').each do
 end
 ```
 
+### Configuring logger
+
+In order to have some debug informations about what kagu does, you could
+configure its logger:
+
+```ruby
+Kagu.logger = Logger.new(STDERR)
+```
+
 ## Executing test suite
 
 This project is fully tested with [Rspec 3](http://github.com/rspec/rspec).
