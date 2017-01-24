@@ -9,7 +9,7 @@ lib_path = "#{__dir__}/kagu"
 
 module Kagu
 
-  mattr_accessor :logger
+  mattr_accessor :logger, instance_writer: false, instance_reader: false
   self.logger = Logger.new(nil)
 
 end
