@@ -14,6 +14,8 @@ Gem::Specification.new do |s|
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
+  s.required_ruby_version = '>= 2.0.0'
+
   s.add_dependency 'activesupport', '>= 4.1.0', '< 5.1.0'
   s.add_dependency 'applescript', '>= 1.0', '< 2.0'
   s.add_dependency 'htmlentities', '>= 4.3.0', '< 4.4.0'
