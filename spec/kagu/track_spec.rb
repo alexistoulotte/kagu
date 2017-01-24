@@ -207,8 +207,8 @@ describe Kagu::Track do
       }.not_to raise_error
     end
 
-    it 'logs a warning if not exist' do
-      expect(Kagu.logger).to receive(:warn)
+    it 'logs an error if not exist' do
+      expect(Kagu.logger).to receive(:error)
       Kagu::Track.new(attributes.merge(path: '/tmp/bar.mp3'))
     end
 

@@ -111,7 +111,7 @@ module Kagu
     def path=(value)
       @path = value.to_s.presence
       raise Error.new("No such file: #{path.inspect}") if File.exists?(path) && !exists?
-      Kagu.logger.warn('Kagu') { "No such iTunes track: #{path.inspect}" } unless exists?
+      Kagu.logger.error('Kagu') { "No such iTunes track: #{path.inspect}" } unless exists?
     end
 
     def title=(value)
