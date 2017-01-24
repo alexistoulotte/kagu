@@ -9,8 +9,6 @@ Gem::Specification.new do |s|
   s.description = 'API to manage iTunes tracks and playlists'
   s.license = 'MIT'
 
-  s.rubyforge_project = 'kagu'
-
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
