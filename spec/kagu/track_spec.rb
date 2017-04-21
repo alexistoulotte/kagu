@@ -108,6 +108,20 @@ describe Kagu::Track do
 
   end
 
+  describe '#bpm' do
+
+    it 'is nil if invalid' do
+      track.send(:bpm=, "42a")
+      expect(track.bpm).to be_nil
+    end
+
+    it 'is an integer' do
+      track.send(:bpm=, '143')
+      expect(track.bpm).to be(143)
+    end
+
+  end
+
   describe '#eql?' do
 
     it 'is true for same object' do

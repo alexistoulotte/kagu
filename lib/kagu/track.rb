@@ -8,7 +8,7 @@ module Kagu
     MANDATORY_ATTRIBUTES = %w(added_at id length path)
     IS_MAC_OS = RUBY_PLATFORM =~ /darwin/
 
-    attr_reader :added_at, :album, :artist, :genre, :id, :length, :path, :title, :year
+    attr_reader :added_at, :album, :artist, :bpm, :genre, :id, :length, :path, :title, :year
 
     def initialize(attributes = {})
       super
@@ -53,6 +53,10 @@ module Kagu
       @artist = value.to_s.squish.presence
     end
 
+    def bpm=(value)
+      @bpm = value.to_s =~ /\A[0-9]+\z/ ? value.to_i : nil
+    end
+
     def genre=(value)
       @genre = value.to_s.squish.presence
     end
@@ -72,6 +76,10 @@ module Kagu
 
     def itunes_artist=(value)
       self.artist = html_entities_decode(value)
+    end
+
+    def itunes_bpm=(value)
+      self.bpm = value
     end
 
     def itunes_date_added=(value)
