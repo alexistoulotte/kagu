@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.0.0'
 
-  s.add_dependency 'activesupport', '>= 4.1.0', '< 5.2.0'
+  s.add_dependency 'activesupport', '>= 4.1.0', '< 6.0.0'
   s.add_dependency 'applescript', '>= 1.0', '< 2.0'
   s.add_dependency 'htmlentities', '>= 4.3.0', '< 4.4.0'
 
