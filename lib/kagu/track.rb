@@ -16,11 +16,11 @@ module Kagu
 
     def <=>(other)
       return nil unless other.is_a?(self.class)
-      added_at <=> other.added_at
+      length <=> other.length
     end
 
     def ==(other)
-      other.is_a?(self.class) && artist == other.artist && title == other.title && (length.to_i - other.length.to_i).abs < 3
+      other.is_a?(self.class) && artist == other.artist && title == other.title
     end
 
     def eql?(other)

@@ -26,18 +26,6 @@ describe Kagu::Track do
       }.to change { track == other }.from(true).to(false)
     end
 
-    it 'is false if length differs' do
-      expect {
-        allow(other).to receive(:length).and_return(track.length - 5)
-      }.to change { track == other }.from(true).to(false)
-    end
-
-    it 'is true if length differs just a little' do
-      expect {
-        allow(other).to receive(:length).and_return(track.length - 2)
-      }.not_to change { track == other }
-    end
-
     it 'is true if album differs' do
       expect {
         allow(other).to receive(:album).and_return('Baz')
@@ -52,17 +40,17 @@ describe Kagu::Track do
 
     it 'compares tracks lengths' do
       expect {
-        allow(other).to receive(:added_at).and_return(1.day.from_now)
-      }.to change { track <=> other }.from(0).to(-1)
+        allow(other).to receive(:length).and_return(track.length - 1)
+      }.to change { track <=> other }.from(0).to(1)
     end
 
-    it 'is nil if added_at is nil' do
-      allow(track).to receive(:added_at).and_return(nil)
+    it 'is nil if length is nil' do
+      allow(track).to receive(:length).and_return(nil)
       expect(track <=> other).to be_nil
     end
 
-    it 'is nil if other track added_at is nil' do
-      allow(other).to receive(:added_at).and_return(nil)
+    it 'is nil if other track length is nil' do
+      allow(other).to receive(:length).and_return(nil)
       expect(track <=> other).to be_nil
     end
 
