@@ -31,6 +31,10 @@ module Kagu
       File.file?(path)
     end
 
+    def hash
+      [artist, title].hash
+    end
+
     def relative_path(directory)
       directory.present? && directory.starts_with?(directory) ? path.gsub(/\A#{Regexp.escape(directory)}\//, '') : path
     end

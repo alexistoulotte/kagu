@@ -150,6 +150,28 @@ describe Kagu::Track do
 
   end
 
+  describe '#hash' do
+
+    let(:other) { track.dup }
+
+    it 'is an integer' do
+      expect(track.hash).to be_a(Integer)
+    end
+
+    it 'it differs if artist differs' do
+      expect {
+        allow(other).to receive(:artist).and_return('Foo')
+      }.to change { track.hash == other.hash }.from(true).to(false)
+    end
+
+    it 'it differs if title differs' do
+      expect {
+        allow(other).to receive(:title).and_return('Bar')
+      }.to change { track.hash == other.hash }.from(true).to(false)
+    end
+
+  end
+
   describe '#id' do
 
     it 'is correct' do
