@@ -1,6 +1,11 @@
 # Kagu
 
-Ruby API to manage iTunes tracks and playlists.
+Ruby API to manage macOS Music tracks and playlists.
+
+**Important note for macOS Catalina (10.15) users**: Apple dropped automatic
+XML library export you need to manually export your XML library to
+`$HOME/Music/iTunes/iTunes Music Library.xml` path to make `kagu` work
+properly.
 
 ## Installation
 

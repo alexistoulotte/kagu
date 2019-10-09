@@ -24,7 +24,7 @@ module Kagu
       tracks = {}.tap do |tracks|
         library.tracks.each { |track| tracks[track.id] = track }
       end
-      Kagu.logger.debug('Kagu') { "Reading iTunes library playlists from #{library.path.inspect}" }
+      Kagu.logger.debug('Kagu') { "Reading library playlists from #{library.path.inspect}" }
       File.open(library.path, 'r') do |file|
         begin
           line = file.readline.strip
@@ -39,7 +39,7 @@ module Kagu
             next
           end
           if line == '</array>'
-            yield(Playlist.new(itunes_name: playlist_name, tracks: playlist_tracks)) if playlist_name.present? && playlist_tracks.any?
+            yield(Playlist.new(tracks: playlist_tracks, xml_name: playlist_name)) if playlist_name.present? && playlist_tracks.any?
             playlist_name = nil
             playlist_tracks = []
             next

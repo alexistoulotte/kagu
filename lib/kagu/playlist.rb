@@ -28,10 +28,10 @@ module Kagu
     private
 
     def add_tracks
-      Kagu.logger.info('Kagu') { "Adding #{tracks.size} track(s) to iTunes playlist #{name.inspect}" }
+      Kagu.logger.info('Kagu') { "Adding #{tracks.size} track(s) to playlist #{name.inspect}" }
       tracks.map(&:id).each_slice(500) do |ids|
         AppleScript.execute(%Q{
-          tell application "iTunes"
+          tell application "Music"
             set playlistToPush to user playlist #{name.inspect}
             set idsToAdd to {#{ids.join(',')}}
             repeat with idToAdd in idsToAdd
@@ -46,9 +46,9 @@ module Kagu
     end
 
     def clear
-      Kagu.logger.info('Kagu') { "Removing all tracks from iTunes playlist #{name.inspect}" }
+      Kagu.logger.info('Kagu') { "Removing all tracks from playlist #{name.inspect}" }
       AppleScript.execute(%Q{
-        tell application "iTunes"
+        tell application "Music"
           delete tracks of playlist #{name.inspect}
         end tell
       })
@@ -58,9 +58,9 @@ module Kagu
     end
 
     def create
-      Kagu.logger.info('Kagu') { "Creating iTunes playlist #{name.inspect}" }
+      Kagu.logger.info('Kagu') { "Creating playlist #{name.inspect}" }
       AppleScript.execute(%Q{
-        tell application "iTunes"
+        tell application "Music"
           if not (exists user playlist #{name.inspect}) then
             make new user playlist with properties { name: #{name.inspect} }
           end if
@@ -71,17 +71,17 @@ module Kagu
       raise Error.new(e)
     end
 
-    def itunes_name=(value)
-      @@html_entities ||= HTMLEntities.new
-      self.name = @@html_entities.decode(value)
-    end
-
     def name=(value)
       @name = value.to_s.squish.presence
     end
 
     def tracks=(values)
       @tracks = [values].flatten.select { |value| value.is_a?(Track) }
+    end
+
+    def xml_name=(value)
+      @@html_entities ||= HTMLEntities.new
+      self.name = @@html_entities.decode(value)
     end
 
   end

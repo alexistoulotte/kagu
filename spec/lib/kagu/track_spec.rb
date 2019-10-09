@@ -187,16 +187,6 @@ describe Kagu::Track do
 
   end
 
-  describe '#itunes_name=' do
-
-    it 'sets title with entities decoded' do
-      expect {
-        track.send(:itunes_name=, 'Racing &amp; Green')
-      }.to change { track.title }.to('Racing & Green')
-    end
-
-  end
-
   describe '#length' do
 
     it 'is correct' do
@@ -269,6 +259,16 @@ describe Kagu::Track do
 
     it 'is "artist - title"' do
       expect(track.to_s).to eq("#{track.artist} - #{track.title}")
+    end
+
+  end
+
+  describe '#xml_name=' do
+
+    it 'sets title with entities decoded' do
+      expect {
+        track.send(:xml_name=, 'Racing &amp; Green')
+      }.to change { track.title }.to('Racing & Green')
     end
 
   end

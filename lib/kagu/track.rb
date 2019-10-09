@@ -74,48 +74,6 @@ module Kagu
       @id = value.to_s =~ /\A[0-9]+\z/ ? value.to_i : nil
     end
 
-    def itunes_album=(value)
-      self.album = html_entities_decode(value)
-    end
-
-    def itunes_artist=(value)
-      self.artist = html_entities_decode(value)
-    end
-
-    def itunes_bpm=(value)
-      self.bpm = value
-    end
-
-    def itunes_date_added=(value)
-      self.added_at = value.present? ? Time.parse(value.to_s) : nil
-    end
-
-    def itunes_genre=(value)
-      self.genre = html_entities_decode(value)
-    end
-
-    def itunes_location=(value)
-      path = CGI.unescape(html_entities_decode(value).gsub('+', '%2B')).gsub(/\Afile:\/\/(localhost)?/, '')
-      path = path.encode('UTF-8', 'UTF-8-MAC') if IS_MAC_OS
-      self.path = path
-    end
-
-    def itunes_name=(value)
-      self.title = html_entities_decode(value)
-    end
-
-    def itunes_total_time=(value)
-      self.length = value.to_s =~ /\A[0-9]+\z/ ? (value.to_i / 1000.0).round : nil
-    end
-
-    def itunes_track_id=(value)
-      self.id = value
-    end
-
-    def itunes_year=(value)
-      self.year = value
-    end
-
     def length=(value)
       @length = value.to_s =~ /\A[0-9]+\z/ ? value.to_i : nil
     end
@@ -123,11 +81,53 @@ module Kagu
     def path=(value)
       @path = value.to_s.presence
       raise Error.new("No such file: #{path.inspect}") if File.exists?(path) && !exists?
-      Kagu.logger.error('Kagu') { "No such iTunes track: #{path.inspect}" } unless exists?
+      Kagu.logger.error('Kagu') { "No such track: #{path.inspect}" } unless exists?
     end
 
     def title=(value)
       @title = value.to_s.squish.presence
+    end
+
+    def xml_album=(value)
+      self.album = html_entities_decode(value)
+    end
+
+    def xml_artist=(value)
+      self.artist = html_entities_decode(value)
+    end
+
+    def xml_bpm=(value)
+      self.bpm = value
+    end
+
+    def xml_date_added=(value)
+      self.added_at = value.present? ? Time.parse(value.to_s) : nil
+    end
+
+    def xml_genre=(value)
+      self.genre = html_entities_decode(value)
+    end
+
+    def xml_location=(value)
+      path = CGI.unescape(html_entities_decode(value).gsub('+', '%2B')).gsub(/\Afile:\/\/(localhost)?/, '')
+      path = path.encode('UTF-8', 'UTF-8-MAC') if IS_MAC_OS
+      self.path = path
+    end
+
+    def xml_name=(value)
+      self.title = html_entities_decode(value)
+    end
+
+    def xml_total_time=(value)
+      self.length = value.to_s =~ /\A[0-9]+\z/ ? (value.to_i / 1000.0).round : nil
+    end
+
+    def xml_track_id=(value)
+      self.id = value
+    end
+
+    def xml_year=(value)
+      self.year = value
     end
 
     def year=(value)

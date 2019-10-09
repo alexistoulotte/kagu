@@ -15,7 +15,7 @@ module Kagu
 
     def each(&block)
       return unless block_given?
-      Kagu.logger.debug('Kagu') { "Loading iTunes library tracks from #{library.path.inspect}" }
+      Kagu.logger.debug('Kagu') { "Loading library tracks from #{library.path.inspect}" }
       File.open(library.path, 'r') do |file|
         while !file.eof? && (line = file.readline.strip)
           next unless line.starts_with?('<key>Track ID</key>')
@@ -23,11 +23,11 @@ module Kagu
           begin
             match = line.match(/<key>(.+)<\/key><(\w+)>(.*)<\/\2>/)
             next unless match
-            name = "itunes_#{match[1].downcase.gsub(' ', '_')}"
+            name = "xml_#{match[1].downcase.gsub(' ', '_')}"
             value = match[3]
             attributes[name] = value
           end while (line = file.readline.strip) != '</dict>'
-          yield(Track.new(attributes)) if attributes['itunes_track_type'] == 'File' && attributes['itunes_podcast'].blank? && EXTENSIONS.include?(File.extname(attributes['itunes_location'].try(:downcase)))
+          yield(Track.new(attributes)) if attributes['xml_track_type'] == 'File' && attributes['xml_podcast'].blank? && EXTENSIONS.include?(File.extname(attributes['xml_location'].try(:downcase)))
         end
       end
     end

@@ -19,16 +19,6 @@ describe Kagu::Playlist do
 
   end
 
-  describe '#itunes_name=' do
-
-    it 'set name and convert entities' do
-      expect {
-        playlist.send(:itunes_name=, 'Hello &amp; World')
-      }.to change { playlist.name }.from('Best tracks').to('Hello & World')
-    end
-
-  end
-
   describe '#name' do
 
     it 'is set at initialization' do
@@ -67,6 +57,16 @@ describe Kagu::Playlist do
 
     it 'removes invalid tracks' do
       expect(Kagu::Playlist.new(name: 'Test', tracks: ['bar', [tracks.first], 'foo']).tracks).to eq([tracks.first])
+    end
+
+  end
+
+  describe '#xml_name=' do
+
+    it 'set name and convert entities' do
+      expect {
+        playlist.send(:xml_name=, 'Hello &amp; World')
+      }.to change { playlist.name }.from('Best tracks').to('Hello & World')
     end
 
   end

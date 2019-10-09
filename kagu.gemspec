@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.author = 'Alexis Toulotte'
   s.email = 'al@alweb.org'
   s.homepage = 'https://github.com/alexistoulotte/kagu'
-  s.summary = 'API for iTunes'
-  s.description = 'API to manage iTunes tracks and playlists'
+  s.summary = 'API for macOS Music'
+  s.description = 'API to manage macOS Music tracks and playlists'
   s.license = 'MIT'
 
   s.files = `git ls-files | grep -vE '^(spec/|test/|\\.|Gemfile|Rakefile)'`.split("\n")

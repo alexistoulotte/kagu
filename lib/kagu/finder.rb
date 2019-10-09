@@ -116,7 +116,7 @@ module Kagu
     def tracks
       return @tracks if @tracks
       (@tracks = library.tracks.to_a).tap do |tracks|
-        Kagu.logger.debug('Kagu') { "Loaded #{tracks.size} track(s) from iTunes library" }
+        Kagu.logger.debug('Kagu') { "Loaded #{tracks.size} track(s) from library" }
       end
     end
 
