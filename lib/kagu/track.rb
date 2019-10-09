@@ -6,7 +6,6 @@ module Kagu
     include Comparable
 
     MANDATORY_ATTRIBUTES = %w(added_at id length path)
-    IS_MAC_OS = RUBY_PLATFORM =~ /darwin/
 
     attr_reader :added_at, :album, :artist, :bpm, :genre, :id, :length, :path, :title, :year
 
@@ -110,7 +109,7 @@ module Kagu
 
     def xml_location=(value)
       path = CGI.unescape(html_entities_decode(value).gsub('+', '%2B')).gsub(/\Afile:\/\/(localhost)?/, '')
-      path = path.encode('UTF-8', 'UTF-8-MAC') if IS_MAC_OS
+      path = path.encode('UTF-8', 'UTF-8-MAC') if Kagu::IS_MAC_OS
       self.path = path
     end
 

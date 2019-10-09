@@ -31,7 +31,7 @@ module Kagu
       Kagu.logger.info('Kagu') { "Adding #{tracks.size} track(s) to playlist #{name.inspect}" }
       tracks.map(&:id).each_slice(500) do |ids|
         AppleScript.execute(%Q{
-          tell application "Music"
+          tell application #{Kagu::OSX_APP_NAME.inspect}
             set playlistToPush to user playlist #{name.inspect}
             set idsToAdd to {#{ids.join(',')}}
             repeat with idToAdd in idsToAdd
@@ -48,7 +48,7 @@ module Kagu
     def clear
       Kagu.logger.info('Kagu') { "Removing all tracks from playlist #{name.inspect}" }
       AppleScript.execute(%Q{
-        tell application "Music"
+        tell application #{Kagu::OSX_APP_NAME.inspect}
           delete tracks of playlist #{name.inspect}
         end tell
       })
@@ -60,7 +60,7 @@ module Kagu
     def create
       Kagu.logger.info('Kagu') { "Creating playlist #{name.inspect}" }
       AppleScript.execute(%Q{
-        tell application "Music"
+        tell application #{Kagu::OSX_APP_NAME.inspect}
           if not (exists user playlist #{name.inspect}) then
             make new user playlist with properties { name: #{name.inspect} }
           end if
