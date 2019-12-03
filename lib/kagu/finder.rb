@@ -111,11 +111,12 @@ module Kagu
     end
 
     def tracks
-      return @tracks if @tracks
       @semaphore.synchronize do
-        (@tracks = Tracks.new.to_a).tap do |tracks|
+        unless @tracks
+          @tracks = Tracks.new.to_a
           Kagu.logger.debug('Kagu') { "Loaded #{tracks.size} track(s) from library" }
         end
+        @tracks
       end
     end
 
