@@ -114,7 +114,7 @@ module Kagu
       @semaphore.synchronize do
         unless @tracks
           @tracks = Tracks.new.to_a
-          Kagu.logger.debug('Kagu') { "Loaded #{tracks.size} track(s) from library" }
+          Kagu.logger.debug('Kagu') { "Loaded #{@tracks.size} track(s) from library" }
         end
         @tracks
       end
