@@ -19,6 +19,7 @@ module Kagu
     end
 
     def initialize(options = {})
+      @semaphore = Mutex.new
       reload(options)
     end
 
@@ -111,8 +112,10 @@ module Kagu
 
     def tracks
       return @tracks if @tracks
-      (@tracks = Tracks.new.to_a).tap do |tracks|
-        Kagu.logger.debug('Kagu') { "Loaded #{tracks.size} track(s) from library" }
+      @semaphore.synchronize do
+        (@tracks = Tracks.new.to_a).tap do |tracks|
+          Kagu.logger.debug('Kagu') { "Loaded #{tracks.size} track(s) from library" }
+        end
       end
     end
 
