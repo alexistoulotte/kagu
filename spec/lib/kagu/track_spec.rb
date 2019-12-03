@@ -80,6 +80,10 @@ describe Kagu::Track do
 
   describe '#album' do
 
+    it 'is correct' do
+      expect(track.album).to be_present
+    end
+
     it 'is is squished' do
       track.send(:album=, " Life Is   \r Peachy  \n")
       expect(track.album).to eq('Life Is Peachy')
@@ -88,6 +92,10 @@ describe Kagu::Track do
   end
 
   describe '#artist' do
+
+    it 'is artist' do
+      expect(track.album).to be_present
+    end
 
     it 'is is squished' do
       track.send(:artist=, " Benny   \r Page  \n")
@@ -129,13 +137,13 @@ describe Kagu::Track do
 
     it 'is true if path is a file' do
       expect {
-        allow(track).to receive(:path).and_return('/tmp/foo.mp3')
+        allow(track).to receive(:path).and_return(Pathname.new('/tmp/foo.mp3'))
       }.to change { track.exists? }.from(true).to(false)
     end
 
     it 'is false if path is a directory' do
       expect {
-        allow(track).to receive(:path).and_return('/tmp')
+        allow(track).to receive(:path).and_return(Pathname.new('/tmp'))
       }.to change { track.exists? }.from(true).to(false)
     end
 
@@ -175,8 +183,8 @@ describe Kagu::Track do
   describe '#id' do
 
     it 'is correct' do
-      expect(track.id).to be_an(Integer)
-      expect(track.id).to be > 0
+      expect(track.id).to be_a(String)
+      expect(track.id).to be_present
     end
 
     it 'raise an error if not specified' do
@@ -205,8 +213,8 @@ describe Kagu::Track do
   describe '#path' do
 
     it 'is correct' do
-      expect(track.path).to be_a(String)
-      expect(File.file?(track.path)).to be(true)
+      expect(track.path).to be_a(Pathname)
+      expect(track.path.file?).to be(true)
     end
 
     it 'raise an error if not specified' do
@@ -237,7 +245,7 @@ describe Kagu::Track do
   describe '#relative_path' do
 
     it 'is correct' do
-      expect(track.relative_path(ENV['HOME'])).to eq(track.path.gsub("#{ENV['HOME']}/", ''))
+      expect(track.relative_path(ENV['HOME'])).to eq(Pathname.new(track.path.to_s.gsub("#{ENV['HOME']}/", '')))
     end
 
     it 'is full path if not starting with given path' do
@@ -259,16 +267,6 @@ describe Kagu::Track do
 
     it 'is "artist - title"' do
       expect(track.to_s).to eq("#{track.artist} - #{track.title}")
-    end
-
-  end
-
-  describe '#xml_name=' do
-
-    it 'sets title with entities decoded' do
-      expect {
-        track.send(:xml_name=, 'Racing &amp; Green')
-      }.to change { track.title }.to('Racing & Green')
     end
 
   end

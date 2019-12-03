@@ -2,8 +2,10 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'applescript'
 require 'byebug' if ENV['DEBUGGER']
-require 'htmlentities'
 require 'logger'
+require 'open3'
+require 'pathname'
+require 'tempfile'
 
 lib_path = "#{__dir__}/kagu"
 
@@ -29,5 +31,6 @@ require "#{lib_path}/finder"
 require "#{lib_path}/library"
 require "#{lib_path}/playlist"
 require "#{lib_path}/playlists"
+require "#{lib_path}/swift_helper"
 require "#{lib_path}/track"
 require "#{lib_path}/tracks"

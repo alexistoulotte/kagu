@@ -61,14 +61,4 @@ describe Kagu::Playlist do
 
   end
 
-  describe '#xml_name=' do
-
-    it 'set name and convert entities' do
-      expect {
-        playlist.send(:xml_name=, 'Hello &amp; World')
-      }.to change { playlist.name }.from('Best tracks').to('Hello & World')
-    end
-
-  end
-
 end

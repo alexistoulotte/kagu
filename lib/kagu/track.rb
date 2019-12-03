@@ -9,10 +9,6 @@ module Kagu
 
     attr_reader :added_at, :album, :artist, :bpm, :genre, :id, :length, :path, :title, :year
 
-    def initialize(attributes = {})
-      super
-    end
-
     def <=>(other)
       return nil unless other.is_a?(self.class)
       length <=> other.length
@@ -27,7 +23,7 @@ module Kagu
     end
 
     def exists?
-      File.file?(path)
+      path.file?
     end
 
     def hash
@@ -35,7 +31,8 @@ module Kagu
     end
 
     def relative_path(directory)
-      directory.present? && directory.starts_with?(directory) ? path.gsub(/\A#{Regexp.escape(directory)}\//, '') : path
+      directory = directory.to_s
+      directory.present? ? Pathname.new(path.to_s.gsub(/\A#{Regexp.escape(directory)}\//, '')) : path
     end
 
     def to_s
@@ -45,6 +42,11 @@ module Kagu
     private
 
     def added_at=(value)
+      if value.is_a?(String)
+        value = Time.parse(value)
+      elsif value.is_a?(Integer)
+        value = Time.at(value)
+      end
       @added_at = value.is_a?(Time) ? value.utc : nil
     end
 
@@ -64,13 +66,8 @@ module Kagu
       @genre = value.to_s.squish.presence
     end
 
-    def html_entities_decode(value)
-      @@html_entities ||= HTMLEntities.new
-      @@html_entities.decode(value.to_s)
-    end
-
     def id=(value)
-      @id = value.to_s =~ /\A[0-9]+\z/ ? value.to_i : nil
+      @id = value.to_s.presence
     end
 
     def length=(value)
@@ -78,55 +75,16 @@ module Kagu
     end
 
     def path=(value)
-      @path = value.to_s.presence
-      raise Error.new("No such file: #{path.inspect}") if File.exists?(path) && !exists?
+      value = value.to_s.presence
+      value = URI.unescape(URI.parse(value).path) if value.is_a?(String) && value.starts_with?('file://')
+      value = value.encode('UTF-8', 'UTF-8-MAC') if Kagu::IS_MAC_OS
+      @path = Pathname.new(value)
+      raise Error.new("No such file: #{path.to_s.inspect}") if path.exist? && !exists?
       Kagu.logger.error('Kagu') { "No such track: #{path.inspect}" } unless exists?
     end
 
     def title=(value)
       @title = value.to_s.squish.presence
-    end
-
-    def xml_album=(value)
-      self.album = html_entities_decode(value)
-    end
-
-    def xml_artist=(value)
-      self.artist = html_entities_decode(value)
-    end
-
-    def xml_bpm=(value)
-      self.bpm = value
-    end
-
-    def xml_date_added=(value)
-      self.added_at = value.present? ? Time.parse(value.to_s) : nil
-    end
-
-    def xml_genre=(value)
-      self.genre = html_entities_decode(value)
-    end
-
-    def xml_location=(value)
-      path = CGI.unescape(html_entities_decode(value).gsub('+', '%2B')).gsub(/\Afile:\/\/(localhost)?/, '')
-      path = path.encode('UTF-8', 'UTF-8-MAC') if Kagu::IS_MAC_OS
-      self.path = path
-    end
-
-    def xml_name=(value)
-      self.title = html_entities_decode(value)
-    end
-
-    def xml_total_time=(value)
-      self.length = value.to_s =~ /\A[0-9]+\z/ ? (value.to_i / 1000.0).round : nil
-    end
-
-    def xml_track_id=(value)
-      self.id = value
-    end
-
-    def xml_year=(value)
-      self.year = value
     end
 
     def year=(value)

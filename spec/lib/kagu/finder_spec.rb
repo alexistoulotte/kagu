@@ -2,8 +2,7 @@ require 'spec_helper'
 
 describe Kagu::Finder do
 
-  let(:finder) { Kagu::Finder.new(library) }
-  let(:library) { Kagu::Library.new }
+  let(:finder) { Kagu::Finder.new }
 
   describe '.replace' do
 
@@ -195,20 +194,6 @@ describe Kagu::Finder do
       expect(finder.ignored?(double(artist: 'korn', title: 'hello'))).to be(true)
       expect(finder.ignored?(double(artist: 'korn', title: 'world'))).to be(true)
       expect(finder.ignored?(double(artist: 'korn', title: 'hellow'))).to be(false)
-    end
-
-  end
-
-  describe '#library' do
-
-    it 'is library given at initialization' do
-      expect(finder.library).to be(library)
-    end
-
-    it 'raise an error if library is nil' do
-      expect {
-        Kagu::Finder.new(nil)
-      }.to raise_error(ArgumentError, 'Kagu::Finder#library must be a library, nil given')
     end
 
   end

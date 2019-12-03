@@ -28,15 +28,16 @@ module Kagu
     private
 
     def add_tracks
+      return if tracks.empty?
       Kagu.logger.info('Kagu') { "Adding #{tracks.size} track(s) to playlist #{name.inspect}" }
-      tracks.map(&:id).each_slice(500) do |ids|
+      Dir.mktmpdir do |directory|
+        path = "#{directory}/#{name}.m3u"
+        File.open(path, 'w') do |io|
+          tracks.each { |track| io << "file://#{URI.escape(track.path.to_s)}\n" }
+        end
         AppleScript.execute(%Q{
           tell application #{Kagu::OSX_APP_NAME.inspect}
-            set playlistToPush to user playlist #{name.inspect}
-            set idsToAdd to {#{ids.join(',')}}
-            repeat with idToAdd in idsToAdd
-              duplicate (tracks of library playlist 1 whose database ID is idToAdd) to playlistToPush
-            end repeat
+            open #{path.inspect}
           end tell
         })
       end
@@ -77,11 +78,6 @@ module Kagu
 
     def tracks=(values)
       @tracks = [values].flatten.select { |value| value.is_a?(Track) }
-    end
-
-    def xml_name=(value)
-      @@html_entities ||= HTMLEntities.new
-      self.name = @@html_entities.decode(value)
     end
 
   end

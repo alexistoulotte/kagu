@@ -2,13 +2,12 @@ require 'spec_helper'
 
 describe Kagu::Tracks do
 
-  let(:library) { Kagu::Library.new }
-  let(:tracks) { Kagu::Tracks.new(library) }
+  let(:tracks) { Kagu::Tracks.new }
 
   describe '#each' do
 
-    it 'most of tracks must be correct path must be a file' do
-      tracks.take(100).each do |track|
+    it 'all tracks must be correct path must be a file' do
+      tracks.each do |track|
         expect(File.file?(track.path)).to be(true)
         expect(track).to be_a(Kagu::Track)
         expect(track.added_at).to be_a(Time)
@@ -19,10 +18,11 @@ describe Kagu::Tracks do
         expect(track.exists?).to be(true)
         expect(track.genre).to be_a(String)
         expect(track.genre).to be_present
-        expect(track.id).to be_an(Integer)
+        expect(track.id).to be_a(String)
+        expect(track.id.size).to be > 10
         expect(track.length).to be_an(Integer)
-        expect(track.path).not_to include('file://')
-        expect(track.path).to include('Music')
+        expect(track.path.to_s).not_to include('file://')
+        expect(track.path.to_s).to include('Music')
         expect(track.title).to be_a(String)
         expect(track.title).to be_present
         expect(track.year).to be_an(Integer)
@@ -41,24 +41,10 @@ describe Kagu::Tracks do
     end
 
     it 'all tracks must exists and path should not include UTF-8-MAC charset' do
-      library.tracks.each do |track|
-        expect(track.path).not_to include("\u{65}\u{301}")
+      tracks.each do |track|
+        expect(track.path.to_s).not_to include("\u{65}\u{301}")
         expect(track.exists?).to be(true)
       end
-    end
-
-  end
-
-  describe '#library' do
-
-    it 'is library given at initialization' do
-      expect(tracks.library).to be(library)
-    end
-
-    it 'raise an error if library is nil' do
-      expect {
-        Kagu::Tracks.new(nil)
-      }.to raise_error(ArgumentError, 'Kagu::Tracks#library must be a library, nil given')
     end
 
   end

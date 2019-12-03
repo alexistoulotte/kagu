@@ -4,8 +4,6 @@ module Kagu
 
     MANDATORY_ATTRIBUTES = []
 
-    attr_reader :library
-
     delegate :replace, :transliterate, to: 'self.class'
 
     def self.replace(value, replacements = {})
@@ -20,9 +18,7 @@ module Kagu
       ActiveSupport::Inflector.transliterate(value.to_s).squish.downcase.presence
     end
 
-    def initialize(library, options = {})
-      raise ArgumentError.new("#{self.class}#library must be a library, #{library.inspect} given") unless library.is_a?(Library)
-      @library = library
+    def initialize(options = {})
       reload(options)
     end
 
@@ -115,7 +111,7 @@ module Kagu
 
     def tracks
       return @tracks if @tracks
-      (@tracks = library.tracks.to_a).tap do |tracks|
+      (@tracks = Tracks.new.to_a).tap do |tracks|
         Kagu.logger.debug('Kagu') { "Loaded #{tracks.size} track(s) from library" }
       end
     end
