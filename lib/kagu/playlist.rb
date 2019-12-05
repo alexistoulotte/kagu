@@ -30,14 +30,12 @@ module Kagu
     def add_tracks
       return if tracks.empty?
       Kagu.logger.info('Kagu') { "Adding #{tracks.size} track(s) to playlist #{name.inspect}" }
-      Dir.mktmpdir do |directory|
-        path = "#{directory}/#{name}.m3u"
-        File.open(path, 'w') do |io|
-          tracks.each { |track| io << "file://#{URI.escape(track.path.to_s)}\n" }
-        end
+      tracks.map(&:id).each_slice(100) do |ids|
+        conditions = ids.map { |id| "persistent ID is #{id.inspect}" }
         AppleScript.execute(%Q{
           tell application #{Kagu::OSX_APP_NAME.inspect}
-            open #{path.inspect}
+            set playlistToPush to user playlist #{name.inspect}
+            duplicate (tracks of library playlist 1 whose #{conditions.join(' or ')}) to playlistToPush
           end tell
         })
       end
