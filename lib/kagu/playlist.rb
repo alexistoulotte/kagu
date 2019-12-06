@@ -34,7 +34,7 @@ module Kagu
         AppleScript.execute(%Q{
           tell application #{Kagu::OSX_APP_NAME.inspect}
             set playlistToPush to user playlist #{name.inspect}
-            set idsToAdd to {#{ids.join(',')}}
+            set idsToAdd to {#{ids.map(&:inspect).join(',')}}
             repeat with idToAdd in idsToAdd
               duplicate (tracks of library playlist 1 whose persistent ID is idToAdd) to playlistToPush
             end repeat
