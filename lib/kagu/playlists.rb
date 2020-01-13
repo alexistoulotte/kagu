@@ -28,7 +28,7 @@ module Kagu
           print("BEGIN_PLAYLIST")
           print(playlist.name)
           for track in playlist.items.filter({ $0.mediaKind == ITLibMediaItemMediaKind.kindSong }) {
-            print(String(format: "%02X", track.persistentID.intValue))
+            print(String(track.persistentID.uint64Value, radix: 16).uppercased())
           }
           print("END_PLAYLIST")
         }
