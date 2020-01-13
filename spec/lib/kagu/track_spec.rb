@@ -111,6 +111,16 @@ describe Kagu::Track do
       expect(track.bpm).to be_nil
     end
 
+    it 'is nil if 0' do
+      track.send(:bpm=, '0')
+      expect(track.bpm).to be_nil
+    end
+
+    it 'is nil if negative' do
+      track.send(:bpm=, '-1')
+      expect(track.bpm).to be_nil
+    end
+
     it 'is an integer' do
       track.send(:bpm=, '143')
       expect(track.bpm).to be(143)

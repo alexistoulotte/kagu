@@ -59,7 +59,8 @@ module Kagu
     end
 
     def bpm=(value)
-      @bpm = value.to_s =~ /\A[0-9]+\z/ ? value.to_i : nil
+      value = value.to_s =~ /\A[0-9]+\z/ ? value.to_i : nil
+      @bpm = (value && value > 0) ? value : nil
     end
 
     def genre=(value)
