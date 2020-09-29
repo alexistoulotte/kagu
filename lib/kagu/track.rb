@@ -77,11 +77,15 @@ module Kagu
 
     def path=(value)
       value = value.to_s.presence
-      value = URI.unescape(URI.parse(value).path) if value.is_a?(String) && value.starts_with?('file://')
-      value = value.encode('UTF-8', 'UTF-8-MAC') if Kagu::IS_MAC_OS
-      @path = Pathname.new(value)
-      raise Error.new("No such file: #{path.to_s.inspect}") if path.exist? && !exists?
-      Kagu.logger.error('Kagu') { "No such track: #{path.inspect}" } unless exists?
+      value = URI.unescape(URI.parse(value).path).presence if value.is_a?(String) && value.starts_with?('file://')
+      value = value.encode('UTF-8', 'UTF-8-MAC') if value.present? && Kagu::IS_MAC_OS
+      if value.present?
+        @path = Pathname.new(value)
+        raise Error.new("No such file: #{path.to_s.inspect}") if path.exist? && !exists?
+        Kagu.logger.error('Kagu') { "No such track: #{path.inspect}" } unless exists?
+      else
+        @path = nil
+      end
     end
 
     def title=(value)

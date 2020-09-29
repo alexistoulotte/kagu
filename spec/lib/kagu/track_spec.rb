@@ -73,7 +73,7 @@ describe Kagu::Track do
     it 'raise an error if not specified' do
       expect {
         Kagu::Track.new(attributes.except(:added_at))
-      }.to raise_error(Kagu::Error, 'Kagu::Track#added_at is mandatory')
+      }.to raise_error(Kagu::Error, /^Kagu::Track#added_at is mandatory for.+/)
     end
 
   end
@@ -200,7 +200,7 @@ describe Kagu::Track do
     it 'raise an error if not specified' do
       expect {
         Kagu::Track.new(attributes.except(:id))
-      }.to raise_error(Kagu::Error, 'Kagu::Track#id is mandatory')
+      }.to raise_error(Kagu::Error, /^Kagu::Track#id is mandatory for.+/)
     end
 
   end
@@ -215,7 +215,7 @@ describe Kagu::Track do
     it 'raise an error if not specified' do
       expect {
         Kagu::Track.new(attributes.except(:length))
-      }.to raise_error(Kagu::Error, 'Kagu::Track#length is mandatory')
+      }.to raise_error(Kagu::Error, /^Kagu::Track#length is mandatory for.+/)
     end
 
   end
@@ -230,7 +230,7 @@ describe Kagu::Track do
     it 'raise an error if not specified' do
       expect {
         Kagu::Track.new(attributes.except(:path))
-      }.to raise_error(Kagu::Error, 'Kagu::Track#path is mandatory')
+      }.to raise_error(Kagu::Error, /^Kagu::Track#path is mandatory for.+/)
     end
 
     it 'does not raise an error if not found' do
