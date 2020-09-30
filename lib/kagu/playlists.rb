@@ -32,7 +32,7 @@ module Kagu
           }
           print("END_PLAYLIST")
         }
-      }) do |line|
+      }).each do |line|
         if line == 'BEGIN_PLAYLIST'
           playlist_name = nil
           playlist_tracks = []
@@ -44,6 +44,7 @@ module Kagu
           playlist_tracks << tracks[line]
         end
       end
+      nil
     end
 
   end

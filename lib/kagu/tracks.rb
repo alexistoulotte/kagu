@@ -35,7 +35,7 @@ module Kagu
           printObjectProperty(name: "year", value: track.year)
           print("END_TRACK")
         }
-      }) do |line|
+      }).each do |line|
         if line == 'BEGIN_TRACK'
           attributes = {}
         elsif line == 'END_TRACK'
@@ -44,6 +44,7 @@ module Kagu
           attributes[match[1]] = JSON.parse(match[2])
         end
       end
+      nil
     end
 
   end

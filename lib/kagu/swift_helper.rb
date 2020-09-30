@@ -2,7 +2,7 @@ module Kagu
 
   module SwiftHelper
 
-    def self.execute(code, &block)
+    def self.execute(code)
       tempfile = Tempfile.new
       begin
         tempfile << code
@@ -12,12 +12,7 @@ module Kagu
       begin
         stdout, stderr, result = Open3.capture3("swift #{tempfile.path.inspect}")
         raise(stderr.presence || "Swift command returned with code: #{result.exitstatus}") unless result.success?
-        if block_given?
-          stdout.lines.each { |line| yield(line.chomp) }
-          nil
-        else
-          stdout
-        end
+        stdout.lines.map(&:chomp)
       ensure
         tempfile.unlink
       end
