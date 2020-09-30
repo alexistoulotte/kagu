@@ -6,7 +6,7 @@ describe Kagu::Tracks do
 
   describe '#each' do
 
-    it 'all tracks must be correct path must be a file' do
+    it 'all tracks must be correct' do
       tracks.each do |track|
         expect(File.file?(track.path)).to be(true)
         expect(track).to be_a(Kagu::Track)
@@ -15,7 +15,7 @@ describe Kagu::Tracks do
         expect(track.album).to be_present
         expect(track.artist).to be_a(String)
         expect(track.artist).to be_present
-        expect(track.exists?).to be(true)
+        expect(track.exists_on_disk?).to be(true)
         expect(track.genre).to be_a(String)
         expect(track.genre).to be_present
         expect(track.id).to be_a(String)
@@ -40,10 +40,9 @@ describe Kagu::Tracks do
       expect(tracks.each {}).to be_nil
     end
 
-    it 'all tracks must exists and path should not include UTF-8-MAC charset' do
+    it "all track's path should not include UTF-8-MAC charset" do
       tracks.each do |track|
         expect(track.path.to_s).not_to include("\u{65}\u{301}")
-        expect(track.exists?).to be(true)
       end
     end
 

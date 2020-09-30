@@ -5,7 +5,7 @@ module Kagu
     include AttributesInitializer
     include Comparable
 
-    MANDATORY_ATTRIBUTES = %w(added_at id length path)
+    MANDATORY_ATTRIBUTES = %w(added_at id length)
 
     attr_reader :added_at, :album, :artist, :bpm, :genre, :id, :length, :path, :title, :year
 
@@ -22,8 +22,8 @@ module Kagu
       super || self == other
     end
 
-    def exists?
-      path.file?
+    def exists_on_disk?
+      path.present? && path.file?
     end
 
     def hash
@@ -31,6 +31,7 @@ module Kagu
     end
 
     def relative_path(directory)
+      return nil if path.blank?
       directory = directory.to_s
       directory.present? ? Pathname.new(path.to_s.gsub(/\A#{Regexp.escape(directory)}\//, '')) : path
     end
@@ -79,13 +80,7 @@ module Kagu
       value = value.to_s.presence
       value = URI.unescape(URI.parse(value).path).presence if value.is_a?(String) && value.starts_with?('file://')
       value = value.encode('UTF-8', 'UTF-8-MAC') if value.present? && Kagu::IS_MAC_OS
-      if value.present?
-        @path = Pathname.new(value)
-        raise Error.new("No such file: #{path.to_s.inspect}") if path.exist? && !exists?
-        Kagu.logger.error('Kagu') { "No such track: #{path.inspect}" } unless exists?
-      else
-        @path = nil
-      end
+      @path = value.present? ? Pathname.new(value) : nil
     end
 
     def title=(value)

@@ -143,18 +143,24 @@ describe Kagu::Track do
 
   end
 
-  describe '#exists?' do
+  describe '#exists_on_disk?' do
+
+    it 'is false if path is nil' do
+      expect {
+        allow(track).to receive(:path).and_return(nil)
+      }.to change { track.exists_on_disk? }.from(true).to(false)
+    end
 
     it 'is true if path is a file' do
       expect {
         allow(track).to receive(:path).and_return(Pathname.new('/tmp/foo.mp3'))
-      }.to change { track.exists? }.from(true).to(false)
+      }.to change { track.exists_on_disk? }.from(true).to(false)
     end
 
     it 'is false if path is a directory' do
       expect {
         allow(track).to receive(:path).and_return(Pathname.new('/tmp'))
-      }.to change { track.exists? }.from(true).to(false)
+      }.to change { track.exists_on_disk? }.from(true).to(false)
     end
 
   end
@@ -227,27 +233,15 @@ describe Kagu::Track do
       expect(track.path.file?).to be(true)
     end
 
-    it 'raise an error if not specified' do
-      expect {
-        Kagu::Track.new(attributes.except(:path))
-      }.to raise_error(Kagu::Error, /^Kagu::Track#path is mandatory for.+/)
+    it 'does not raise an error if not specified' do
+      track = Kagu::Track.new(attributes.except(:path))
+      expect(track.path).to be_nil
     end
 
     it 'does not raise an error if not found' do
       expect {
         Kagu::Track.new(attributes.merge(path: '/tmp/bar.mp3'))
       }.not_to raise_error
-    end
-
-    it 'logs an error if not exist' do
-      expect(Kagu.logger).to receive(:error)
-      Kagu::Track.new(attributes.merge(path: '/tmp/bar.mp3'))
-    end
-
-    it 'raise an error if exists but not a file' do
-      expect {
-        Kagu::Track.new(attributes.merge(path: '/tmp'))
-      }.to raise_error(Kagu::Error, 'No such file: "/tmp"')
     end
 
   end
@@ -260,6 +254,12 @@ describe Kagu::Track do
 
     it 'is full path if not starting with given path' do
       expect(track.relative_path('/Users/john')).to eq(track.path)
+    end
+
+    it 'is nil if path is nil' do
+      expect {
+        allow(track).to receive(:path).and_return(nil)
+      }.to change { track.relative_path(ENV['HOME']) }.from(an_instance_of(Pathname)).to(nil)
     end
 
   end
