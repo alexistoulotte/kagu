@@ -30,12 +30,6 @@ module Kagu
       [artist, title].hash
     end
 
-    def relative_path(directory)
-      return nil if path.blank?
-      directory = directory.to_s
-      directory.present? ? Pathname.new(path.to_s.gsub(/\A#{Regexp.escape(directory)}\//, '')) : path
-    end
-
     def to_s
       "#{artist} - #{title}"
     end

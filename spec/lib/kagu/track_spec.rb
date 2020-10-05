@@ -246,24 +246,6 @@ describe Kagu::Track do
 
   end
 
-  describe '#relative_path' do
-
-    it 'is correct' do
-      expect(track.relative_path(ENV['HOME'])).to eq(Pathname.new(track.path.to_s.gsub("#{ENV['HOME']}/", '')))
-    end
-
-    it 'is full path if not starting with given path' do
-      expect(track.relative_path('/Users/john')).to eq(track.path)
-    end
-
-    it 'is nil if path is nil' do
-      expect {
-        allow(track).to receive(:path).and_return(nil)
-      }.to change { track.relative_path(ENV['HOME']) }.from(an_instance_of(Pathname)).to(nil)
-    end
-
-  end
-
   describe '#title' do
 
     it 'is is squished' do
