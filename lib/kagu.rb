@@ -1,5 +1,6 @@
 require 'active_support'
 require 'active_support/core_ext'
+require 'addressable/uri'
 require 'applescript'
 require 'byebug' if ENV['DEBUGGER']
 require 'logger'

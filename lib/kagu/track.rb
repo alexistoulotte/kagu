@@ -72,7 +72,7 @@ module Kagu
 
     def path=(value)
       value = value.to_s.presence
-      value = URI.unescape(URI.parse(value).path).presence if value.is_a?(String) && value.starts_with?('file://')
+      value = Addressable::URI.unescape(Addressable::URI.parse(value).path).presence if value.is_a?(String) && value.starts_with?('file://')
       value = value.encode('UTF-8', 'UTF-8-MAC') if value.present? && Kagu::IS_MAC_OS
       @path = value.present? ? Pathname.new(value) : nil
     end

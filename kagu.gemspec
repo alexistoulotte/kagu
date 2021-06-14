@@ -16,9 +16,10 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0.0'
 
   s.add_dependency 'activesupport', '>= 4.1.0', '< 7.0.0'
+  s.add_dependency 'addressable', '>= 2.7.0', '< 3.0.0'
   s.add_dependency 'applescript', '>= 1.0', '< 2.0'
 
   s.add_development_dependency 'byebug', '>= 3.2.0', '< 12.0.0'
   s.add_development_dependency 'rake', '>= 10.3.0', '< 14.0.0'
-  s.add_development_dependency 'rspec', '>= 3.1.0', '< 3.10.0'
+  s.add_development_dependency 'rspec', '>= 3.1.0', '< 3.11.0'
 end
