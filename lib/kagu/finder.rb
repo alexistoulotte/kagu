@@ -2,7 +2,7 @@ module Kagu
 
   class Finder
 
-    MANDATORY_ATTRIBUTES = []
+    MANDATORY_ATTRIBUTES = [].freeze
 
     delegate :replace, :transliterate, to: 'self.class'
 
@@ -29,7 +29,7 @@ module Kagu
         tracks_digests.each_with_index do |hash, digests_index|
           digests(attributes).each_with_index do |digest, digest_index|
             tracks = hash[digest].presence || next
-            tracks = tracks.select { |track| !matches.any? { |match| match.try(:include?, track) } }
+            tracks = tracks.reject { |track| matches.any? { |match| match.try(:include?, track) } }
             next if tracks.empty?
             index = [digests_index, digest_index].max
             matches[index] ||= []
@@ -83,10 +83,11 @@ module Kagu
 
     def ignored=(values)
       @ignored = [values].flatten.map do |value|
-        if value.is_a?(Hash)
+        case value
+        when Hash
           value = value.stringify_keys
           value = "#{value['artist']} #{value['title']}"
-        elsif value.is_a?(Track)
+        when Track
           value = "#{value.artist} #{value.title}"
         else
           value = value.to_s

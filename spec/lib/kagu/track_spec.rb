@@ -107,7 +107,7 @@ describe Kagu::Track do
   describe '#bpm' do
 
     it 'is nil if invalid' do
-      track.send(:bpm=, "42a")
+      track.send(:bpm=, '42a')
       expect(track.bpm).to be_nil
     end
 
@@ -279,7 +279,7 @@ describe Kagu::Track do
     end
 
     it 'is nil if invalid' do
-      track.send(:year=, 20434)
+      track.send(:year=, 20_434)
       expect(track.year).to be_nil
     end
 

@@ -2,12 +2,12 @@ module Kagu
 
   class Playlist
 
-    MANDATORY_ATTRIBUTES = %w(name)
+    MANDATORY_ATTRIBUTES = %w(name).freeze
 
     include AttributesInitializer
     include Enumerable
 
-    attr_reader :name, :tracks
+    attr_reader :name
 
     delegate :each, to: :tracks
 
@@ -31,7 +31,7 @@ module Kagu
       return if tracks.empty?
       Kagu.logger.info('Kagu') { "Adding #{tracks.size} track(s) to playlist #{name.inspect}" }
       tracks.map(&:id).each_slice(500) do |ids|
-        AppleScript.execute(%Q{
+        AppleScript.execute("
           tell application #{Kagu::OSX_APP_NAME.inspect}
             set playlistToPush to user playlist #{name.inspect}
             set idsToAdd to {#{ids.map(&:inspect).join(',')}}
@@ -39,7 +39,7 @@ module Kagu
               duplicate (tracks of library playlist 1 whose persistent ID is idToAdd) to playlistToPush
             end repeat
           end tell
-        })
+        ")
       end
       true
     rescue => e
@@ -48,11 +48,11 @@ module Kagu
 
     def clear
       Kagu.logger.info('Kagu') { "Removing all tracks from playlist #{name.inspect}" }
-      AppleScript.execute(%Q{
+      AppleScript.execute("
         tell application #{Kagu::OSX_APP_NAME.inspect}
           delete tracks of playlist #{name.inspect}
         end tell
-      })
+      ")
       true
     rescue => e
       raise Error.new(e)
@@ -60,13 +60,13 @@ module Kagu
 
     def create
       Kagu.logger.info('Kagu') { "Creating playlist #{name.inspect}" }
-      AppleScript.execute(%Q{
+      AppleScript.execute("
         tell application #{Kagu::OSX_APP_NAME.inspect}
           if not (exists user playlist #{name.inspect}) then
             make new user playlist with properties { name: #{name.inspect} }
           end if
         end tell
-      })
+      ")
       true
     rescue => e
       raise Error.new(e)

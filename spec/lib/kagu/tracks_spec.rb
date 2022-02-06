@@ -37,7 +37,7 @@ describe Kagu::Tracks do
     end
 
     it 'returns nil' do
-      expect(tracks.each {}).to be_nil
+      expect(tracks.each).to be_nil
     end
 
     it "all track's path should not include UTF-8-MAC charset" do

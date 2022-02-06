@@ -12,27 +12,27 @@ module Kagu
       build(attributes).tap(&:save)
     end
 
-    def each(&block)
+    def each
       return unless block_given?
       Kagu.logger.debug('Kagu') { 'Loading library playlists' }
-      tracks = {}.tap do |tracks|
-        Tracks.new.each { |track| tracks[track.id] = track }
+      tracks = {}.tap do |items|
+        Tracks.new.each { |track| items[track.id] = track }
       end
       playlist_name = nil
       playlist_tracks = []
-      SwiftHelper.execute(%Q{
+      SwiftHelper.execute("
         import iTunesLibrary
 
-        let library = try! ITLibrary(apiVersion: "1")
+        let library = try! ITLibrary(apiVersion: \"1\")
         for playlist in library.allPlaylists.filter({ !$0.isMaster }) {
-          print("BEGIN_PLAYLIST")
+          print(\"BEGIN_PLAYLIST\")
           print(playlist.name)
           for track in playlist.items.filter({ $0.mediaKind == ITLibMediaItemMediaKind.kindSong }) {
             print(String(track.persistentID.uint64Value, radix: 16).uppercased())
           }
-          print("END_PLAYLIST")
+          print(\"END_PLAYLIST\")
         }
-      }).each do |line|
+      ").each do |line|
         if line == 'BEGIN_PLAYLIST'
           playlist_name = nil
           playlist_tracks = []

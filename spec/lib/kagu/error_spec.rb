@@ -16,7 +16,7 @@ describe Kagu::Error do
     end
 
     it 'default one if blank' do
-      expect(Kagu::Error.new(" ").message).to eq('Kagu::Error')
+      expect(Kagu::Error.new(' ').message).to eq('Kagu::Error')
     end
 
   end

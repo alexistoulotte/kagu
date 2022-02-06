@@ -23,7 +23,7 @@ describe Kagu::Finder do
     end
 
     it 'accepts arrays as replacements' do
-      expect(Kagu::Finder.replace('Hello World!', [['World', 'John'], ['Hello', 'Bye']])).to eq('Bye John!')
+      expect(Kagu::Finder.replace('Hello World!', [%w(World John), %w(Hello Bye)])).to eq('Bye John!')
     end
 
   end
@@ -121,14 +121,14 @@ describe Kagu::Finder do
     end
 
     it 'finds for some tracks with replacements as regexp' do
-      finder.reload(replacements: { /subsonik (\d+)/ => "subsonik podcast \\1" })
+      finder.reload(replacements: { /subsonik (\d+)/ => 'subsonik podcast \\1' })
       results = finder.find(artist: 'subsonik', title: '002')
       expect(results.size).to eq(1)
       expect(results.first.first.title).to match(/podcast 002/i)
     end
 
     it 'does not fails if it does not match last replacements' do
-      finder.reload(replacements: [{ /subsonik (\d+)/ => "subsonik podcast \\1" }, { /\s+/ => '' }])
+      finder.reload(replacements: [{ /subsonik (\d+)/ => 'subsonik podcast \\1' }, { /\s+/ => '' }])
       results = finder.find(artist: 'subsonik', title: '002')
       expect(results.size).to eq(1)
       expect(results.first.first.title).to match(/podcast 002/i)
@@ -140,8 +140,8 @@ describe Kagu::Finder do
 
     it 'can be set as an array of string' do
       expect {
-        finder.reload(ignored: ['test', 'foo'])
-      }.to change { finder.ignored }.from([]).to(['test', 'foo'])
+        finder.reload(ignored: %w(test foo))
+      }.to change { finder.ignored }.from([]).to(%w(test foo))
     end
 
     it 'can be set as a simple string' do
@@ -177,7 +177,7 @@ describe Kagu::Finder do
     it 'removes duplicates' do
       expect {
         finder.reload(ignored: ['test', 'Foo ', 'foo', 'TEST'])
-      }.to change { finder.ignored }.from([]).to(['test', 'foo'])
+      }.to change { finder.ignored }.from([]).to(%w(test foo))
     end
 
   end
@@ -239,8 +239,9 @@ describe Kagu::Finder do
   describe '#reload!' do
 
     it 'invokes reload' do
-      expect(finder).to receive(:reload).with('foo' => 'bar')
-      finder.reload!('foo' => 'bar')
+      argument = { 'foo' => 'bar' }
+      expect(finder).to receive(:reload).with(argument)
+      finder.reload!(argument)
     end
 
     it 'removes tracks cache' do
@@ -279,7 +280,7 @@ describe Kagu::Finder do
     end
 
     it 'can be specified as array of array' do
-      expect(finder.reload(replacements: [['foo', 'bar' ], ['titi' => 'toto']]).replacements).to eq([['foo', 'bar' ], ['titi' => 'toto']])
+      expect(finder.reload(replacements: [%w(foo bar), ['titi' => 'toto']]).replacements).to eq([%w(foo bar), ['titi' => 'toto']])
     end
 
     it 'raise an error if a string is given' do

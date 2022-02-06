@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Kagu::Playlist do
 
   let(:library) { Kagu::Library.new }
-  let(:playlist) { Kagu::Playlist.new(name: 'Best tracks', tracks: tracks) }
+  let(:playlist) { Kagu::Playlist.new(name: 'Best tracks', tracks:) }
   let(:tracks) { library.tracks.take(15) }
 
   describe '#each' do
@@ -12,7 +12,7 @@ describe Kagu::Playlist do
       track = nil
       playlist.each do |t|
         track = t
-        break
+        break if track
       end
       expect(track).to be_a(Kagu::Track)
     end
@@ -52,7 +52,7 @@ describe Kagu::Playlist do
     end
 
     it 'is tracks given at initialization' do
-      expect(Kagu::Playlist.new(name: 'Test', tracks: tracks).tracks).to eq(tracks)
+      expect(Kagu::Playlist.new(name: 'Test', tracks:).tracks).to eq(tracks)
     end
 
     it 'removes invalid tracks' do

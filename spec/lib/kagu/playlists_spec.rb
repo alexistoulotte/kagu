@@ -10,7 +10,7 @@ describe Kagu::Playlists do
       expect(playlists.count).to be > 5
       playlists.each do |playlist|
         expect(playlist.name).not_to eq('Bibliothèque')
-        expect(playlist.name).not_to match(/\&#\d+;/)
+        expect(playlist.name).not_to match(/&#\d+;/)
         expect(playlist.name).to be_a(String)
         expect(playlist.name).to be_present
       end
@@ -24,7 +24,7 @@ describe Kagu::Playlists do
     end
 
     it 'returns nil' do
-      expect(playlists.each {}).to be_nil
+      expect(playlists.each).to be_nil
     end
 
   end

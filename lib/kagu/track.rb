@@ -5,7 +5,7 @@ module Kagu
     include AttributesInitializer
     include Comparable
 
-    MANDATORY_ATTRIBUTES = %w(added_at id length)
+    MANDATORY_ATTRIBUTES = %w(added_at id length).freeze
 
     attr_reader :added_at, :album, :artist, :bpm, :genre, :id, :length, :path, :title, :year
 
@@ -37,9 +37,10 @@ module Kagu
     private
 
     def added_at=(value)
-      if value.is_a?(String)
+      case value
+      when String
         value = Time.parse(value)
-      elsif value.is_a?(Integer)
+      when Integer
         value = Time.at(value)
       end
       @added_at = value.is_a?(Time) ? value.utc : nil
@@ -55,7 +56,7 @@ module Kagu
 
     def bpm=(value)
       value = value.to_s =~ /\A[0-9]+\z/ ? value.to_i : nil
-      @bpm = (value && value > 0) ? value : nil
+      @bpm = value && value > 0 ? value : nil
     end
 
     def genre=(value)
